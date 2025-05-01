@@ -97,7 +97,7 @@ namespace BookCatalog.Web.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ActorExists(author.Id))
+                    if (!AuthorExist(author.Id))
                     {
                         return NotFound();
                     }
@@ -144,7 +144,7 @@ namespace BookCatalog.Web.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ActorExists(int id)
+        private bool AuthorExist(int id)
         {
             return _context.Authors.Any(e => e.Id == id);
         }
