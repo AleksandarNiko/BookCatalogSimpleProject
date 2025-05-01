@@ -1,6 +1,6 @@
 ﻿namespace BookCatalog.Common
 {
-    public class EntityValidationConstants
+    public static class EntityValidationConstants
     {
         public class Book
         {
