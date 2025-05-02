@@ -26,14 +26,6 @@ namespace BookCatalog.Data.Models
         public string Genre { get; set; } = null!;
 
         public DateTime PublishedDate { get; set; }
-
-        [Required]
-        [MaxLength(Common.EntityValidationConstants.Book.ISBNMaxLength)]
-        public string ISBN { get; set; } = null!;
-
-        [Required]
-        [MaxLength(Common.EntityValidationConstants.Publisher.NameMaxLength)]
-        public string Publisher { get; set; } = null!;
         public int PageCount { get; set; }
 
         [Required]

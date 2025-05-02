@@ -22,14 +22,5 @@
             public const int DescriptionMaxLength = 200;
         }
 
-        public class Publisher
-        {
-            public const int NameMaxLength = 100;
-            public const int AddressMaxLength = 200;
-            public const int PhoneNumberMaxLength = 10;
-            public const int EmailMaxLength = 100;
-        }
-
-
     }
 }

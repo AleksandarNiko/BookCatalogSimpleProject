@@ -27,6 +27,25 @@ namespace BookCatalog.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Books",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Title = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Author = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Genre = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    PublishedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    PageCount = table.Column<int>(type: "int", nullable: false),
+                    Language = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Books", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Genres",
                 columns: table => new
                 {
@@ -38,49 +57,6 @@ namespace BookCatalog.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Genres", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Publishers",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Address = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-                    PhoneNumber = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Publishers", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Books",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Title = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Author = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Genre = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    PublishedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ISBN = table.Column<string>(type: "nvarchar(13)", maxLength: 13, nullable: false),
-                    Publisher = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    PageCount = table.Column<int>(type: "int", nullable: false),
-                    Language = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
-                    PublisherId = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Books", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Books_Publishers_PublisherId",
-                        column: x => x.PublisherId,
-                        principalTable: "Publishers",
-                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -140,11 +116,6 @@ namespace BookCatalog.Data.Migrations
                 name: "IX_BookGenre_GenresId",
                 table: "BookGenre",
                 column: "GenresId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Books_PublisherId",
-                table: "Books",
-                column: "PublisherId");
         }
 
         /// <inheritdoc />
@@ -164,9 +135,6 @@ namespace BookCatalog.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Genres");
-
-            migrationBuilder.DropTable(
-                name: "Publishers");
         }
     }
 }

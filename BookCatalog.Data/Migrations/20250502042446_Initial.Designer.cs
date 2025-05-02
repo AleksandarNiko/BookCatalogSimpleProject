@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookCatalog.Data.Migrations
 {
     [DbContext(typeof(BookCatalogDbContext))]
-    [Migration("20250501201048_Initial")]
+    [Migration("20250502042446_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -89,11 +89,6 @@ namespace BookCatalog.Data.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<string>("ISBN")
-                        .IsRequired()
-                        .HasMaxLength(13)
-                        .HasColumnType("nvarchar(13)");
-
                     b.Property<string>("Language")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -105,22 +100,12 @@ namespace BookCatalog.Data.Migrations
                     b.Property<DateTime>("PublishedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Publisher")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<int?>("PublisherId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("PublisherId");
 
                     b.ToTable("Books");
                 });
@@ -146,39 +131,6 @@ namespace BookCatalog.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Genres");
-                });
-
-            modelBuilder.Entity("BookCatalog.Data.Models.Publisher", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Address")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("PhoneNumber")
-                        .IsRequired()
-                        .HasMaxLength(10)
-                        .HasColumnType("nvarchar(10)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Publishers");
                 });
 
             modelBuilder.Entity("BookGenre", b =>
@@ -211,13 +163,6 @@ namespace BookCatalog.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("BookCatalog.Data.Models.Book", b =>
-                {
-                    b.HasOne("BookCatalog.Data.Models.Publisher", null)
-                        .WithMany("Books")
-                        .HasForeignKey("PublisherId");
-                });
-
             modelBuilder.Entity("BookGenre", b =>
                 {
                     b.HasOne("BookCatalog.Data.Models.Book", null)
@@ -231,11 +176,6 @@ namespace BookCatalog.Data.Migrations
                         .HasForeignKey("GenresId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("BookCatalog.Data.Models.Publisher", b =>
-                {
-                    b.Navigation("Books");
                 });
 #pragma warning restore 612, 618
         }
