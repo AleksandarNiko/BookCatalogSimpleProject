@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace BookCatalog.Services.Interfaces
 {
-    public interface IActorService
+    public interface IAuthorService
     {
         Task<List<Author>> GetAllAsync();
         Task<Author?> GetByIdAsync(int id);
