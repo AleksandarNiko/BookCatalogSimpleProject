@@ -22,15 +22,15 @@ namespace BookCatalog.Services.Implementations
         public async Task<Author?> GetByIdAsync(int id)
             => await _context.Authors.FindAsync(id);
 
-        public async Task AddAsync(Author actor)
+        public async Task AddAsync(Author author)
         {
-            _context.Authors.Add(actor);
+            _context.Authors.Add(author);
             await _context.SaveChangesAsync();
         }
 
-        public async Task UpdateAsync(Author actor)
+        public async Task UpdateAsync(Author author)
         {
-            _context.Authors.Update(actor);
+            _context.Authors.Update(author);
             await _context.SaveChangesAsync();
         }
 
