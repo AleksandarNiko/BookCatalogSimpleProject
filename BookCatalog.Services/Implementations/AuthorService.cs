@@ -7,7 +7,7 @@ using BookCatalog.Services.Interfaces;
 
 namespace BookCatalog.Services.Implementations
 {
-    public class AuthorService : IActorService
+    public class AuthorService : IAuthorService
     {
         private readonly BookCatalogDbContext _context;
 
