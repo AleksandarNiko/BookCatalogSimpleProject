@@ -16,10 +16,6 @@ namespace BookCatalog.Data.Models
         [MaxLength(Common.EntityValidationConstants.Genre.NameMaxLength)]
         public string Name { get; set; } = null!;
 
-        [Required]
-        [MaxLength(Common.EntityValidationConstants.Genre.DescriptionMaxLength)]
-        public string Description { get; set; } = null!;
-
         // Navigation property
         public virtual ICollection<Book> Books { get; set; } = new List<Book>();
     }

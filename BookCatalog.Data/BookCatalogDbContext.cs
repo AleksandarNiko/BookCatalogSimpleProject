@@ -19,8 +19,12 @@ namespace BookCatalog.Data
         public DbSet<Author> Authors { get; set; }= null!;
         public DbSet<Genre> Genres { get; set; } = null!;
 
+        public DbSet<BookAuthor> BooksAuthors { get; set; } = null!;
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<BookAuthor>()
+                .HasKey(ba => new { ba.BookId, ba.AuthorId });
             base.OnModelCreating(modelBuilder);
         }
     }

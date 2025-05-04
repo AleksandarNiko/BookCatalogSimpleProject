@@ -17,27 +17,15 @@ namespace BookCatalog.Data.Models
         [MaxLength(Common.EntityValidationConstants.Book.TitleMaxLength)]
         public string Title { get; set; } = null!;
 
-        [Required]
-        [MaxLength(Common.EntityValidationConstants.Author.NameMaxLength)]
-        public string Author { get; set; } = null!;
+        public int Year { get; set; }
 
-        [Required]
-        [MaxLength(Common.EntityValidationConstants.Genre.NameMaxLength)]
-        public string Genre { get; set; } = null!;
+        public double Rating { get; set; }
 
-        public DateTime PublishedDate { get; set; }
-        public int PageCount { get; set; }
+        public int GenreId { get; set; }
 
-        [Required]
-        [MaxLength(Common.EntityValidationConstants.Book.LanguageMaxLength)]
-        public string Language { get; set; } = null!;
+        public Genre Genre { get; set; } = null!;
 
-        [Required]
-        [MaxLength(Common.EntityValidationConstants.Book.DescriptionMaxLength)]
-        public string Description { get; set; } = null!;
 
-        // Navigation properties
-        public virtual ICollection<Author> Authors { get; set; } = new List<Author>();
-        public virtual ICollection<Genre> Genres { get; set; } = new List<Genre>();
+        public ICollection<BookAuthor> BookAuthors { get; set; } = new List<BookAuthor>();
     }
 }

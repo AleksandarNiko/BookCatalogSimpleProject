@@ -5,22 +5,22 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BookCatalog.Web.Controllers
 {
-    public class GenreController : Controller
+    public class AuthorsController : Controller
     {
         private readonly BookCatalogDbContext _context;
 
-        public GenreController(BookCatalogDbContext context)
+        public AuthorsController(BookCatalogDbContext context)
         {
             _context = context;
         }
 
-        // GET: Genres
+        // GET: Authors
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Genres.ToListAsync());
+            return View(await _context.Authors.ToListAsync());
         }
 
-        // GET: Genres/Details/5
+        // GET: Authors/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -28,39 +28,39 @@ namespace BookCatalog.Web.Controllers
                 return NotFound();
             }
 
-            var genre = await _context.Genres
+            var actor = await _context.Authors
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (genre == null)
+            if (actor == null)
             {
                 return NotFound();
             }
 
-            return View(genre);
+            return View(actor);
         }
 
-        // GET: Genres/Create
+        // GET: Authors/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Genres/Create
+        // POST: Authors/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Description")] Genre genre)
+        public async Task<IActionResult> Create([Bind("Id,Name,Biography,DateOfBirth")] Author author)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(genre);
+                _context.Add(author);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(genre);
+            return View(author);
         }
 
-        // GET: Genres/Edit/5
+        // GET: Authors/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -68,22 +68,22 @@ namespace BookCatalog.Web.Controllers
                 return NotFound();
             }
 
-            var genre = await _context.Genres.FindAsync(id);
-            if (genre == null)
+            var actor = await _context.Authors.FindAsync(id);
+            if (actor == null)
             {
                 return NotFound();
             }
-            return View(genre);
+            return View(actor);
         }
 
-        // POST: Genres/Edit/5
+        // POST: Authors/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name")] Genre genre)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Biography,DateOfBirth")] Author author)
         {
-            if (id != genre.Id)
+            if (id != author.Id)
             {
                 return NotFound();
             }
@@ -92,12 +92,12 @@ namespace BookCatalog.Web.Controllers
             {
                 try
                 {
-                    _context.Update(genre);
+                    _context.Update(author);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!GenreExists(genre.Id))
+                    if (!AuthorExist(author.Id))
                     {
                         return NotFound();
                     }
@@ -108,10 +108,10 @@ namespace BookCatalog.Web.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(genre);
+            return View(author);
         }
 
-        // GET: Genres/Delete/5
+        // GET: Authors/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -119,34 +119,34 @@ namespace BookCatalog.Web.Controllers
                 return NotFound();
             }
 
-            var genre = await _context.Genres
+            var actor = await _context.Authors
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (genre == null)
+            if (actor == null)
             {
                 return NotFound();
             }
 
-            return View(genre);
+            return View(actor);
         }
 
-        // POST: Genres/Delete/5
+        // POST: Authors/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var genre = await _context.Genres.FindAsync(id);
-            if (genre != null)
+            var actor = await _context.Authors.FindAsync(id);
+            if (actor != null)
             {
-                _context.Genres.Remove(genre);
+                _context.Authors.Remove(actor);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool GenreExists(int id)
+        private bool AuthorExist(int id)
         {
-            return _context.Genres.Any(e => e.Id == id);
+            return _context.Authors.Any(e => e.Id == id);
         }
     }
 }

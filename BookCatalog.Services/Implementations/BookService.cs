@@ -20,7 +20,8 @@ namespace BookCatalog.Services.Implementations
         {
             return await _context.Books
                 .Include(m => m.Genre)
-                .Include(m => m.Author)
+                .Include(m => m.BookAuthors)
+                .ThenInclude(ma => ma.Author)
                 .ToListAsync();
         }
 
@@ -28,7 +29,8 @@ namespace BookCatalog.Services.Implementations
         {
             return await _context.Books
                 .Include(m => m.Genre)
-                .Include(m => m.Author)
+                .Include(m => m.BookAuthors)
+                .ThenInclude(ma => ma.Author)
                 .FirstOrDefaultAsync(m => m.Id == id);
         }
 

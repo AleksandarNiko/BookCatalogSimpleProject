@@ -6,11 +6,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BookCatalog.Web.Controllers
 {
-    public class BookController : Controller
+    public class BooksController : Controller
     {
         private readonly BookCatalogDbContext _context;
 
-        public BookController(BookCatalogDbContext context)
+        public BooksController(BookCatalogDbContext context)
         {
             _context = context;
         }
@@ -18,10 +18,10 @@ namespace BookCatalog.Web.Controllers
         // GET: Books
         public async Task<IActionResult> Index()
         {
-            var movies = await _context.Books
+            var books = await _context.Books
                 .Include(m => m.Genre)
                 .ToListAsync();
-            return View(movies);
+            return View(books);
         }
 
         // GET: Books/Create

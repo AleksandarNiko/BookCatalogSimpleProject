@@ -15,14 +15,10 @@ namespace BookCatalog.Data.Models
         [Required]
         [MaxLength(Common.EntityValidationConstants.Author.NameMaxLength)]
         public string Name { get; set; } = null!;
-
-        [Required]
-        [MaxLength(Common.EntityValidationConstants.Author.BiographyMaxLength)]
-        public string Biography { get; set; } = null!;
         public DateTime DateOfBirth { get; set; }
 
         // Navigation property
-        public virtual ICollection<Book> Books { get; set; } = new List<Book>();
+        public virtual ICollection<BookAuthor> Books { get; set; } = new List<BookAuthor>();
 
 
     }

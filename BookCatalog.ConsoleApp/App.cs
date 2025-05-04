@@ -1,6 +1,7 @@
 ﻿using BookCatalog.Data.Models;
 using BookCatalog.Services.Interfaces;
 using BookCatalog.Data.Models;
+using static BookCatalog.Common.EntityValidationConstants;
 
 namespace BookCatalog.ConsoleApp
 {
@@ -68,7 +69,7 @@ namespace BookCatalog.ConsoleApp
                 Console.WriteLine("=== Books ===");
                 foreach (var book in books)
                 {
-                    Console.WriteLine($"{book.Id}. {book.Title} ({book.PublishedDate}) - Pages count: {book.PageCount} - Genre: {book.Genre}");
+                    Console.WriteLine($"{book.Id}. {book.Title} ({book.Year}) - Rating: {book.Rating}/10 - Genre: {book.Genre?.Name ?? "N/A"}");
                 }
             }
 
@@ -84,16 +85,16 @@ namespace BookCatalog.ConsoleApp
             Console.Write("Title: ");
             string? title = Console.ReadLine();
 
-            Console.Write("PublishedDate(year): ");
-            if (!DateTime.TryParse(Console.ReadLine(), out DateTime year)) { Console.WriteLine("Invalid year!"); Console.ReadLine(); return; }
+            Console.Write("Year: ");
+            if (!int.TryParse(Console.ReadLine(), out int year)) { Console.WriteLine("Invalid year!"); Console.ReadLine(); return; }
 
-            Console.Write("Pages Count: ");
-            if (!int.TryParse(Console.ReadLine(), out int pages)) { Console.WriteLine("Invalid pages!"); Console.ReadLine(); return; }
+            Console.Write("Rating (0-10): ");
+            if (!double.TryParse(Console.ReadLine(), out double rating)) { Console.WriteLine("Invalid rating!"); Console.ReadLine(); return; }
 
-            Console.Write("Genre: ");
-            string? genre = Console.ReadLine();
+            Console.Write("Genre Id: ");
+            if (!int.TryParse(Console.ReadLine(), out int genreId)) { Console.WriteLine("Invalid genre!"); Console.ReadLine(); return; }
 
-            var book = new Book { Title = title!, PublishedDate = year, PageCount = pages, Genre = genre };
+            var book = new Data.Models.Book { Title = title!, Year = year, Rating = rating, GenreId = genreId };
             await _bookService.AddAsync(book);
 
             Console.WriteLine("Book added successfully!");
@@ -103,27 +104,28 @@ namespace BookCatalog.ConsoleApp
         private async Task EditBookAsync()
         {
             Console.Clear();
+            Console.Clear();
             Console.Write("Enter book ID to edit: ");
             if (!int.TryParse(Console.ReadLine(), out int id)) { Console.WriteLine("Invalid ID."); Console.ReadLine(); return; }
 
-            var movie = await _bookService.GetByIdAsync(id);
-            if (movie == null) { Console.WriteLine("Book not found."); Console.ReadLine(); return; }
+            var book = await _bookService.GetByIdAsync(id);
+            if (book == null) { Console.WriteLine("Movie not found."); Console.ReadLine(); return; }
 
-            Console.Write($"New title ({movie.Title}): ");
+            Console.Write($"New title ({book.Title}): ");
             string? title = Console.ReadLine();
-            movie.Title = string.IsNullOrWhiteSpace(title) ? movie.Title : title;
+            book.Title = string.IsNullOrWhiteSpace(title) ? book.Title : title;
 
-            Console.Write($"New year ({movie.PublishedDate}): ");
-            if (DateTime.TryParse(Console.ReadLine(), out DateTime year)) movie.PublishedDate = year;
+            Console.Write($"New year ({book.Year}): ");
+            if (int.TryParse(Console.ReadLine(), out int year)) book.Year = year;
 
-            Console.Write($"New pages count ({movie.PageCount}): ");
-            if (int.TryParse(Console.ReadLine(), out int pageCount)) movie.PageCount = pageCount;
+            Console.Write($"New rating ({book.Rating}): ");
+            if (double.TryParse(Console.ReadLine(), out double rating)) book.Rating = rating;
 
-            Console.Write($"New genre ({movie.Genre}): ");
-            string? genre= Console.ReadLine();
+            Console.Write($"New genre ID ({book.GenreId}): ");
+            if (int.TryParse(Console.ReadLine(), out int genreId)) book.GenreId = genreId;
 
-            await _bookService.UpdateAsync(movie);
-            Console.WriteLine("Book updated!");
+            await _bookService.UpdateAsync(book);
+            Console.WriteLine("Movie updated!");
             Console.ReadLine();
         }
 
@@ -193,7 +195,7 @@ namespace BookCatalog.ConsoleApp
             Console.Write("New genre name: ");
             var name = Console.ReadLine();
             if (string.IsNullOrWhiteSpace(name)) { Console.WriteLine("Invalid name."); Console.ReadLine(); return; }
-            await _genreService.AddAsync(new Genre { Name = name });
+            await _genreService.AddAsync(new Data.Models.Genre { Name = name });
             Console.WriteLine("Genre added.");
             Console.ReadLine();
         }
@@ -288,7 +290,7 @@ namespace BookCatalog.ConsoleApp
                 Console.ReadLine();
                 return;
             }
-            await _authorService.AddAsync(new Author { Name = name!, DateOfBirth = birthDate });
+            await _authorService.AddAsync(new Data.Models.Author { Name = name!, DateOfBirth = birthDate });
             Console.WriteLine("Author added.");
             Console.ReadLine();
         }
@@ -324,19 +326,21 @@ namespace BookCatalog.ConsoleApp
 
             Console.Write("Year (leave empty to skip): ");
             var yearInput = Console.ReadLine();
-            DateTime? year = DateTime.TryParse(yearInput, out DateTime y) ? y : null;
+            int? year = int.TryParse(yearInput, out int y) ? y : null;
 
             Console.Write("Genre (leave empty to skip): ");
             var genreInput = Console.ReadLine();
+            int? genreId = int.TryParse(genreInput, out int g) ? g : null;
 
             var allMovies = await _bookService.GetAllAsync();
 
             var filtered = allMovies
-                .Where(m =>
-                    (string.IsNullOrWhiteSpace(titlePart) || m.Title.Contains(titlePart, StringComparison.OrdinalIgnoreCase)) &&
-                    (!year.HasValue || m.PublishedDate == year)
-                )
-                .ToList();
+                 .Where(m =>
+                     (string.IsNullOrWhiteSpace(titlePart) || m.Title.Contains(titlePart, StringComparison.OrdinalIgnoreCase)) &&
+                 (!year.HasValue || m.Year == year) &&
+                 (!genreId.HasValue || m.GenreId == genreId)
+                 )
+                 .ToList();
 
             Console.WriteLine("\nSort by:");
             Console.WriteLine("1. Title");
@@ -348,8 +352,8 @@ namespace BookCatalog.ConsoleApp
             filtered = sortOption switch
             {
                 "1" => filtered.OrderBy(m => m.Title).ToList(),
-                "2" => filtered.OrderBy(m => m.PublishedDate).ToList(),
-                "3" => filtered.OrderByDescending(m => m.PageCount).ToList(),
+                "2" => filtered.OrderBy(m => m.Year).ToList(),
+                "3" => filtered.OrderByDescending(m => m.Rating).ToList(),
                 _ => filtered
             };
 
@@ -357,7 +361,7 @@ namespace BookCatalog.ConsoleApp
 
             foreach (var book in filtered)
             {
-                Console.WriteLine($"{book.Id}. {book.Title} ({book.PublishedDate}) - {book.PageCount} pages - Genre: {book.Genre ?? "N/A"}");
+                Console.WriteLine($"{book.Id}. {book.Title} ({book.Year}) - {book.Rating}/10 - Genre: {book.Genre.Name ?? "N/A"}");
             }
 
             Console.WriteLine("\nPress Enter to return...");
