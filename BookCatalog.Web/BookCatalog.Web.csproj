@@ -21,4 +21,8 @@
     <ProjectReference Include="..\BookCatalog.Data\BookCatalog.Data.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Views\Authors\" />
+  </ItemGroup>
+
 </Project>
