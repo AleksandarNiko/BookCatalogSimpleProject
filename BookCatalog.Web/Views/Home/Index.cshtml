@@ -3,7 +3,17 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4"> Каталог за книги</h1>
-    <p class="lead">Добре дошли в уеб интерфейса на приложението.</p>
-    <p>Използвайте менюто горе, за да разгледате книги, жанрове и автори.</p>
+    <h1 class="display-4 text-primary">Каталог за книги</h1>
+    <p class="lead text-secondary">Добре дошли в уеб интерфейса на приложението.</p>
+    <p class="text-muted">Използвайте менюто горе или бутоните по-долу, за да разгледате книги, жанрове и автори.</p>
+
+    <div class="mt-4">
+        <a asp-controller="Books" asp-action="Index" class="btn btn-primary btn-lg mx-2">Разгледай Книги</a>
+        <a asp-controller="Genres" asp-action="Index" class="btn btn-success btn-lg mx-2">Разгледай Жанрове</a>
+        <a asp-controller="Authors" asp-action="Index" class="btn btn-info btn-lg mx-2">Разгледай Автори</a>
+        <a asp-controller="Home" asp-action="Privacy" class="btn btn-warning btn-lg mx-2">Политика за поверителност</a>
+    </div>
 </div>
+
+
+
