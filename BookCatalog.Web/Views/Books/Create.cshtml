@@ -1,37 +1,53 @@
 ﻿@model BookCatalog.Data.Models.Book
 
-<h1>Create Book</h1>
+<h1 class="text-primary">Create Book</h1>
 
-<form asp-action="Create" method="post">
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<h4 class="text-secondary">Enter the details of the new book</h4>
+<hr />
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <form asp-action="Create" method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
 
-    <div class="form-group">
-        <label asp-for="Title" class="control-label"></label>
-        <input asp-for="Title" class="form-control" />
-        <span asp-validation-for="Title" class="text-danger"></span>
+                    <div class="form-group mb-3">
+                        <label asp-for="Title" class="form-label fw-bold"></label>
+                        <input asp-for="Title" class="form-control" placeholder="Enter book title" />
+                        <span asp-validation-for="Title" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label asp-for="Year" class="form-label fw-bold"></label>
+                        <input asp-for="Year" class="form-control" placeholder="Enter publication year" />
+                        <span asp-validation-for="Year" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label asp-for="Rating" class="form-label fw-bold"></label>
+                        <input asp-for="Rating" class="form-control" placeholder="Enter book rating" />
+                        <span asp-validation-for="Rating" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label asp-for="GenreId" class="form-label fw-bold"></label>
+                        <select asp-for="GenreId" asp-items="ViewBag.GenreId" class="form-control">
+                            <option value="">Select a genre</option>
+                        </select>
+                        <span asp-validation-for="GenreId" class="text-danger"></span>
+                    </div>
+
+                    <div class="d-flex justify-content-between">
+                        <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
-
-    <div class="form-group">
-        <label asp-for="Year" class="control-label"></label>
-        <input asp-for="Year" class="form-control" />
-        <span asp-validation-for="Year" class="text-danger"></span>
-    </div>
-
-    <div class="form-group">
-        <label asp-for="Rating" class="control-label"></label>
-        <input asp-for="Rating" class="form-control" />
-        <span asp-validation-for="Rating" class="text-danger"></span>
-    </div>
-
-    <div class="form-group">
-        <label asp-for="GenreId" class="control-label"></label>
-        <select asp-for="GenreId" asp-items="ViewBag.GenreId" class="form-control"></select>
-        <span asp-validation-for="GenreId" class="text-danger"></span>
-    </div>
-
-    <button type="submit" class="btn btn-primary">Save</button>
-</form>
+</div>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 }
+
