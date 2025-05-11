@@ -1,46 +1,4 @@
-﻿@* @model BookCatalog.Data.Models.Author
-
-@{
-    ViewData["Title"] = "Create";
-}
-
-<h1>Create</h1>
-
-<h4>Author</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="DateOfBirth" class="control-label"></label>
-                <input asp-for="DateOfBirth" class="form-control" />
-                <span asp-validation-for="DateOfBirth" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
-@section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
-}
- *@
-
-                @model BookCatalog.Data.Models.Author
+﻿@model BookCatalog.Data.Models.Author
 
 @{
     ViewData["Title"] = "Create";
@@ -61,11 +19,14 @@
                         <input asp-for="Name" class="form-control" placeholder="Enter author's name" />
                         <span asp-validation-for="Name" class="text-danger"></span>
                     </div>
-                    <div class="form-group mb-3">
+
+                     <div class="form-group mb-3">
                         <label asp-for="DateOfBirth" class="form-label fw-bold"></label>
                         <input asp-for="DateOfBirth" class="form-control" placeholder="Enter date of birth" />
                         <span asp-validation-for="DateOfBirth" class="text-danger"></span>
                     </div>
+
+                   
                     <div class="d-flex justify-content-between">
                         <a asp-action="Index" class="btn btn-secondary">Back to List</a>
                         <input type="submit" value="Create" class="btn btn-primary" />

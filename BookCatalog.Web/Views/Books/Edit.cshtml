@@ -1,4 +1,4 @@
-﻿@model BookCatalog.Data.Models.Book
+﻿@model BookCatalog.Web.Models.BookEditViewModel
 
 @{
     ViewData["Title"] = "Edit";
@@ -33,13 +33,12 @@
                         <input asp-for="Rating" class="form-control" placeholder="Enter book rating" />
                         <span asp-validation-for="Rating" class="text-danger"></span>
                     </div>
-
-                    <div class="form-group mb-3">
-                        <label asp-for="GenreId" class="form-label fw-bold"></label>
-                        <select asp-for="GenreId" class="form-control" asp-items="ViewBag.GenreId">
-                            <option value="">Select a genre</option>
+                    <div class="col-sm-6 mb-2">
+                        <label asp-for="@Model.GenreId" class="form-label-add-edit">Genre</label>
+                        <select asp-for="@Model.GenreId" class="form-control" aria-required="true" asp-items="@(new SelectList(Model.Genres, "Id", "Name"))">
+                            <option value="">Select Genre...</option>
                         </select>
-                        <span asp-validation-for="GenreId" class="text-danger"></span>
+                        <span asp-validation-for="@Model.GenreId" class="text-danger"></span>
                     </div>
 
                     <div class="d-flex justify-content-between">

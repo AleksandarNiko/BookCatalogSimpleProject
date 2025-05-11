@@ -1,4 +1,4 @@
-﻿@model BookCatalog.Data.Models.Book
+﻿@model BookCatalog.Web.Models.BookDetailsViewModel
 
 @{
     ViewData["Title"] = "Details";
@@ -30,10 +30,10 @@
                 @Html.DisplayFor(model => model.Rating)
             </dd>
             <dt class="col-sm-3 fw-bold">
-                @Html.DisplayNameFor(model => model.Genre)
+                @Html.DisplayNameFor(model => model.GenreName)
             </dt>
             <dd class="col-sm-9">
-                @Html.DisplayFor(model => model.Genre.Name)
+                @Html.DisplayFor(model => model.GenreName)
             </dd>
         </dl>
         <div class="d-flex justify-content-between mt-4">
