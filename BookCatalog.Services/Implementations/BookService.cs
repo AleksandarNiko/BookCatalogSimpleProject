@@ -34,15 +34,15 @@ namespace BookCatalog.Services.Implementations
                 .FirstOrDefaultAsync(m => m.Id == id);
         }
 
-        public async Task AddAsync(Book movie)
+        public async Task AddAsync(Book book)
         {
-            _context.Books.Add(movie);
+            _context.Books.Add(book);
             await _context.SaveChangesAsync();
         }
 
-        public async Task UpdateAsync(Book movie)
+        public async Task UpdateAsync(Book book)
         {
-            _context.Books.Update(movie);
+            _context.Books.Update(book);
             await _context.SaveChangesAsync();
         }
 
